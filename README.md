@@ -43,5 +43,3 @@ ANTHROPIC_API_KEY=
 ENCRYPTION_KEY=
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
-
-Google OAuth client needs `http://localhost:3000/api/auth/google/callback` as an authorized redirect URI.
