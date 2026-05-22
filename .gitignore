@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# clerk configuration (can include secrets)
+/.clerk/
+
+# locally-installed Claude Code skills (skills-lock.json pins the set instead)
+/.agents/
+/.claude/
+.vscode/
