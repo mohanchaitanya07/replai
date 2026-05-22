@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Replai
 
-## Getting Started
+Your AI executive assistant. Reads your inbox, drafts replies, extracts tasks, and schedules your week — automatically.
 
-First, run the development server:
+## What it does
+
+Every time you hit "Run Agent" (or on a 15-minute cron), Replai:
+
+- Fetches your unread Gmail
+- Hands each email to Claude for analysis — priority, summary, action items
+- Drafts a reply if one is needed
+- Adds tasks to your dashboard
+- Creates Google Calendar events for any deadlines or meetings mentioned
+
+You see everything on a dashboard, with full visibility into what the agent did and why.
+
+## Tech
+
+- Next.js 16 (App Router) + React 19
+- Tailwind CSS 4 + shadcn/ui
+- Clerk for auth + billing
+- Drizzle ORM on Postgres (Railway)
+- Anthropic Claude (Haiku 4.5) via the AI SDK
+- Google APIs (Gmail + Calendar)
+
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
+bunx drizzle-kit push   # push schema to your Postgres
+bun run dev             # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+You'll need a `.env.local` with:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+DATABASE_URL=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+ANTHROPIC_API_KEY=
+ENCRYPTION_KEY=
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Google OAuth client needs `http://localhost:3000/api/auth/google/callback` as an authorized redirect URI.
